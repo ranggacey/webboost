@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "WebBoost — Bikin website kamu lebih cepat",
+  title: "Cikweb — Cek website kamu",
   description: "Cek masalah website dan dapatkan solusi yang mudah dipahami.",
 };
 

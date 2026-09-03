@@ -186,7 +186,7 @@ export default function Home() {
         setReportData(data);
         setHistory((current) => {
           const next = [{ hostname: data.hostname, score: data.score, strategy: data.strategy, date: new Date().toISOString() }, ...current.filter((item) => item.hostname !== data.hostname)].slice(0, 5);
-          window.localStorage.setItem("webboost-history", JSON.stringify(next));
+          window.localStorage.setItem("cikweb-history", JSON.stringify(next));
           return next;
         });
         setExpandedIssue(null);
@@ -211,7 +211,7 @@ export default function Home() {
 
   useEffect(() => {
     try {
-      const saved = window.localStorage.getItem("webboost-history");
+      const saved = window.localStorage.getItem("cikweb-history");
       if (saved) setHistory(JSON.parse(saved));
     } catch {
       setHistory([]);
@@ -288,7 +288,7 @@ export default function Home() {
     const blob = new Blob([JSON.stringify(report, null, 2)], { type: "application/json" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = `webboost-${report.hostname}.json`;
+    link.download = `cikweb-${report.hostname}.json`;
     link.click();
     URL.revokeObjectURL(link.href);
   }
@@ -299,7 +299,7 @@ export default function Home() {
       <nav className="topbar page-width" aria-label="Navigasi utama">
         <button className="brand" onClick={resetScan} aria-label="Kembali ke halaman utama">
           <BrandMark />
-          <span>webboost</span>
+          <span>cikweb</span>
         </button>
         <div className="nav-links">
           <a href="#cara-kerja">Cara kerja</a>
@@ -357,7 +357,7 @@ export default function Home() {
             </div>
           </section>
 
-          <section className="proof-strip page-width" aria-label="Manfaat WebBoost">
+          <section className="proof-strip page-width" aria-label="Manfaat Cikweb">
             <span>Isi report</span>
             <div><CheckIcon /> Masalah paling penting di atas</div>
             <div><CheckIcon /> Penjelasan yang mudah dipahami</div>
@@ -410,7 +410,7 @@ export default function Home() {
         </section>
       )}
 
-      <footer className="footer page-width"><div className="brand"><BrandMark /><span>webboost</span></div><span>Cek website tanpa akun.</span><span>© 2026 WebBoost</span></footer>
+      <footer className="footer page-width"><div className="brand"><BrandMark /><span>cikweb</span></div><span>ranggacey</span><span>© 2026 Cikweb</span></footer>
     </main>
   );
 }
