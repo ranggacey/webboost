@@ -176,7 +176,15 @@ export default function Home() {
               body: JSON.stringify({ url: url.startsWith("http") ? url : `https://${url}`, strategy, scope }),
               signal: controller.signal,
             }).then(async (response) => {
-              const payload = await response.json();
+              const raw = await response.text();
+              let payload: { error?: string } & Partial<ReportData> = {};
+
+              try {
+                payload = raw ? JSON.parse(raw) : {};
+              } catch {
+                throw new Error("Server audit mengembalikan hasil yang tidak valid. Coba jalankan ulang server.");
+              }
+
               if (!response.ok) throw new Error(payload.error || "Website tidak bisa dianalisis saat ini.");
               return payload as ReportData;
             });
@@ -196,7 +204,13 @@ export default function Home() {
         }, 450);
       } catch (auditError) {
         if (cancelled || (auditError instanceof DOMException && auditError.name === "AbortError")) return;
-        setError(auditError instanceof Error ? auditError.message : "Website tidak bisa dianalisis saat ini.");
+        setError(
+          auditError instanceof TypeError
+            ? "Server audit tidak merespons. Pastikan aplikasi server sedang berjalan."
+            : auditError instanceof Error
+              ? auditError.message
+              : "Website tidak bisa dianalisis saat ini.",
+        );
         setView("home");
       }
     }
